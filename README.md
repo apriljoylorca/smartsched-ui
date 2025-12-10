@@ -35,6 +35,13 @@ Short description: React single-page app for admins and schedulers to manage tea
 3.  **Configuration**: Verify the API base URL in `src/services/api.js`.
 4.  **Run**: `npm start` (or `yarn start`) - usually opens at `http://localhost:3000`.
 
+## Deployment to Vercel 🚀
+
+1. **Connect Repository**: Link your GitHub repository to Vercel and select the `smartsched-ui` directory.
+2. **Set Environment Variable**: Add `REACT_APP_API_BASE_URL` with value `https://smartsched-backend.onrender.com/api`
+3. **Deploy**: Vercel will automatically detect the React app and deploy using the `vercel.json` configuration.
+4. **Note**: The backend API at `https://smartsched-backend.onrender.com` already has CORS configured to allow requests from `https://smartsched-client.vercel.app`.
+
 ## Key Components 🧩
 
 * **`App.js`**: Defines layout and routes, using `ProtectedRoute`.
