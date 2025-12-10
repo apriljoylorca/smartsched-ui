@@ -15,6 +15,7 @@ import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
 import AdminUsersPage from './components/AdminUsersPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import ConnectionTest from './components/ConnectionTest';
 
 /**
  * AppContent contains the layout and routes.
@@ -53,6 +54,7 @@ function AppContent() {
               <NavLink to="/aboutus">About Us</NavLink>
               <NavLink to="/login">Login</NavLink>
               <NavLink to="/register">Register</NavLink>
+              <NavLink to="/test-connection">Test Connection</NavLink>
             </>
           )}
         </nav>
@@ -71,6 +73,7 @@ function AppContent() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/aboutus" element={<AboutUsPage />} />
+          <Route path="/test-connection" element={<ConnectionTest />} />
 
           {/* Protected Routes (Scheduler & Admin) */}
           <Route

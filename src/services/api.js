@@ -1,11 +1,23 @@
 import axios from 'axios';
 
-export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080/api';
+// Get API base URL from environment variable, with fallback
+let apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080/api';
+
+// Normalize the URL - remove trailing slash if present
+apiBaseUrl = apiBaseUrl.endsWith('/') ? apiBaseUrl.slice(0, -1) : apiBaseUrl;
+
+// Ensure it ends with /api if it doesn't already
+if (!apiBaseUrl.endsWith('/api')) {
+  apiBaseUrl = apiBaseUrl.endsWith('/') ? apiBaseUrl + 'api' : apiBaseUrl + '/api';
+}
+
+export const API_BASE_URL = apiBaseUrl;
 
 // Log API configuration on load
 console.log('=== API CONFIGURATION ===');
 console.log('API_BASE_URL:', API_BASE_URL);
 console.log('REACT_APP_API_BASE_URL env:', process.env.REACT_APP_API_BASE_URL);
+console.log('Full login URL will be:', `${API_BASE_URL}/auth/login`);
 
 // Create a new Axios instance
 const api = axios.create({

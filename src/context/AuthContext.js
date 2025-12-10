@@ -49,8 +49,13 @@ export function AuthProvider({ children }) {
   const login = async (username, password) => {
     setIsLoading(true);
     try {
+      // Ensure API_BASE_URL doesn't have trailing slash and construct URL correctly
+      const loginUrl = API_BASE_URL.endsWith('/') 
+        ? `${API_BASE_URL}auth/login` 
+        : `${API_BASE_URL}/auth/login`;
+      console.log('Login URL:', loginUrl);
       // Use the base 'axios' instance for this public endpoint
-      const response = await axios.post(`${API_BASE_URL}/auth/login`, { username, password });
+      const response = await axios.post(loginUrl, { username, password });
       const { token: newToken, role } = response.data;
 
       const userData = { username, role };
@@ -75,8 +80,13 @@ export function AuthProvider({ children }) {
   const register = async (username, password) => {
     setIsLoading(true);
     try {
+      // Ensure API_BASE_URL doesn't have trailing slash and construct URL correctly
+      const registerUrl = API_BASE_URL.endsWith('/') 
+        ? `${API_BASE_URL}auth/register` 
+        : `${API_BASE_URL}/auth/register`;
+      console.log('Register URL:', registerUrl);
       // Register is also public, so use the base axios instance
-      await axios.post(`${API_BASE_URL}/auth/register`, { username, password });
+      await axios.post(registerUrl, { username, password });
       setIsLoading(false);
       return { success: true };
     } catch (error) {
