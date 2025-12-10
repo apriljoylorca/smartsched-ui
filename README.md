@@ -1,70 +1,54 @@
-# Getting Started with Create React App
+# SmartSched - React Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Short description: React single-page app for admins and schedulers to manage teachers, classrooms, sections, and trigger/monitor AI-generated class schedules.
 
-## Available Scripts
+## Main Features ✨
 
-In the project directory, you can run:
+* **AI Schedule Generation Interface**: Allows users to input subject details (code, name, teacher, hours, type) for a section and initiate the AI scheduling process via the backend. 📅
+* **Data Management (CRUD)**: Provides pages for viewing, adding, editing (Admin only), and deleting (Admin only) Teachers, Classrooms, and Sections. 📚
+* **Schedule Viewing & Export**: Displays generated schedules organized by program/section, and allows exporting section schedules to Excel. 📊➡️📄
+* **Role-Based Access & User Management**: Features secure login/registration, restricts access based on Admin/Scheduler roles, and includes an Admin page for user approval/deletion. 🔒👥
 
-### `npm start`
+## Technologies Used 🛠️
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+* **React**: JavaScript library for UIs.
+* **React Router**: For client-side routing.
+* **Axios**: For API requests.
+* **React Context API**: For global authentication state (`AuthContext`).
+* **CSS**: For styling (`index.css`).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Project Structure 📁
 
-### `npm test`
+* `src/`: Main application code.
+    * `components/`: React components for pages and UI elements.
+    * `context/`: `AuthContext.js` for authentication state.
+    * `services/`: `api.js` for Axios configuration.
+    * `App.js`: Main layout and routing setup.
+    * `index.js`: Application entry point.
+    * `index.css`: Global styles.
+* `public/`: Static assets.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Setup & Running ▶️
 
-### `npm run build`
+1.  **Prerequisites**: Node.js, npm/yarn, running SmartSched Backend API (default `http://localhost:8080`).
+2.  **Installation**: `npm install` (or `yarn install`) in the frontend project directory.
+3.  **Configuration**: Verify the API base URL in `src/services/api.js`.
+4.  **Run**: `npm start` (or `yarn start`) - usually opens at `http://localhost:3000`.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Key Components 🧩
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+* **`App.js`**: Defines layout and routes, using `ProtectedRoute`.
+* **`AuthContext.js`**: Manages global auth state and functions (`login`, `logout`, `register`).
+* **`api.js`**: Configured Axios instance with JWT interceptors.
+* **`ProtectedRoute.js`**: Guards routes based on authentication and roles.
+* **Page Components**: Handle UI and logic for specific views (e.g., `GenerateSchedulePage`, `HomePage`, `AdminUsersPage`).
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Authentication Flow 🔑
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1.  `AuthContext` checks `localStorage` on load.
+2.  Unauthenticated users are redirected to `/login`.
+3.  Login via `AuthContext` calls `/api/auth/login`, stores JWT/role on success.
+4.  Axios interceptor adds JWT to requests.
+5.  `ProtectedRoute` checks token/role for access.
+6.  API 401/403 errors trigger logout via interceptor.
+7.  Registration requires admin approval.
