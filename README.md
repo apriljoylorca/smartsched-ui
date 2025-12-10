@@ -38,9 +38,18 @@ Short description: React single-page app for admins and schedulers to manage tea
 ## Deployment to Vercel 🚀
 
 1. **Connect Repository**: Link your GitHub repository to Vercel and select the `smartsched-ui` directory.
-2. **Set Environment Variable**: Add `REACT_APP_API_BASE_URL` with value `https://smartsched-backend.onrender.com/api`
-3. **Deploy**: Vercel will automatically detect the React app and deploy using the `vercel.json` configuration.
-4. **Note**: The backend API at `https://smartsched-backend.onrender.com` already has CORS configured to allow requests from `https://smartsched-client.vercel.app`.
+2. **Set Environment Variable** ⚠️ **REQUIRED**:
+   - Go to **Settings → Environment Variables** in Vercel
+   - Add: `REACT_APP_API_BASE_URL` = `https://smartsched-backend.onrender.com/api`
+   - **Important**: No trailing slash! Select **Production** environment
+   - See `VERCEL_SETUP.md` for detailed instructions
+3. **Redeploy**: After setting the environment variable, redeploy your application
+4. **Verify**: Check browser console - should show `API_BASE_URL: https://smartsched-backend.onrender.com/api`
+5. **Note**: The backend API at `https://smartsched-backend.onrender.com` already has CORS configured to allow requests from `https://smartsched-client.vercel.app`.
+
+### ⚠️ Common Issue: "API_BASE_URL: http://localhost:8080/api"
+
+If you see this in the console, it means the environment variable is not set. The app will try to connect to localhost and fail. **You must set `REACT_APP_API_BASE_URL` in Vercel and redeploy.**
 
 ## Key Components 🧩
 

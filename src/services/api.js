@@ -17,6 +17,41 @@ export const API_BASE_URL = apiBaseUrl;
 console.log('=== API CONFIGURATION ===');
 console.log('API_BASE_URL:', API_BASE_URL);
 console.log('REACT_APP_API_BASE_URL env:', process.env.REACT_APP_API_BASE_URL);
+
+// Check if we're in production but using localhost
+const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+const isUsingLocalhost = API_BASE_URL.includes('localhost') || API_BASE_URL.includes('127.0.0.1');
+
+if (isProduction && isUsingLocalhost) {
+  console.error('⚠️ CONFIGURATION ERROR ⚠️');
+  console.error('You are in production but API_BASE_URL points to localhost!');
+  console.error('Please set REACT_APP_API_BASE_URL environment variable in Vercel to:');
+  console.error('https://smartsched-backend.onrender.com/api');
+  console.error('Then redeploy your application.');
+  
+  // Show user-friendly error banner
+  const errorBanner = document.createElement('div');
+  errorBanner.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #ff4444;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    z-index: 10000;
+    font-weight: bold;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  `;
+  errorBanner.innerHTML = `
+    ⚠️ API Configuration Error: Environment variable REACT_APP_API_BASE_URL is not set. 
+    Please configure it in Vercel and redeploy. 
+    <a href="/test-connection" style="color: white; text-decoration: underline; margin-left: 10px;">Test Connection</a>
+  `;
+  document.body.insertBefore(errorBanner, document.body.firstChild);
+}
+
 console.log('Full login URL will be:', `${API_BASE_URL}/auth/login`);
 
 // Create a new Axios instance

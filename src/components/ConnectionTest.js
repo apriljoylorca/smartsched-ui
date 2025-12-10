@@ -111,7 +111,31 @@ function ConnectionTest() {
       <div style={{ marginBottom: '20px', padding: '15px', backgroundColor: '#f5f5f5', borderRadius: '5px' }}>
         <h3>API Configuration</h3>
         <p><strong>API_BASE_URL:</strong> {testResults.apiUrl || 'Not set'}</p>
-        <p><strong>Environment Variable:</strong> {process.env.REACT_APP_API_BASE_URL || 'Not set (using default)'}</p>
+        <p><strong>Environment Variable:</strong> {process.env.REACT_APP_API_BASE_URL || '❌ Not set (using default)'}</p>
+        {(!process.env.REACT_APP_API_BASE_URL && (testResults.apiUrl?.includes('localhost') || testResults.apiUrl?.includes('127.0.0.1'))) && (
+          <div style={{ marginTop: '15px', padding: '15px', backgroundColor: '#fff3cd', border: '2px solid #ffc107', borderRadius: '5px' }}>
+            <h4 style={{ marginTop: 0, color: '#856404' }}>⚠️ Configuration Issue Detected</h4>
+            <p style={{ color: '#856404', marginBottom: '10px' }}>
+              The environment variable <code>REACT_APP_API_BASE_URL</code> is not set, so the app is trying to connect to localhost.
+            </p>
+            <div style={{ backgroundColor: 'white', padding: '10px', borderRadius: '3px', fontFamily: 'monospace' }}>
+              <strong>To fix this in Vercel:</strong>
+              <ol style={{ marginTop: '10px', paddingLeft: '20px' }}>
+                <li>Go to your Vercel project dashboard</li>
+                <li>Navigate to <strong>Settings → Environment Variables</strong></li>
+                <li>Add a new variable:
+                  <ul style={{ marginTop: '5px' }}>
+                    <li><strong>Name:</strong> <code>REACT_APP_API_BASE_URL</code></li>
+                    <li><strong>Value:</strong> <code>https://smartsched-backend.onrender.com/api</code></li>
+                    <li><strong>Environment:</strong> Production (and Preview if needed)</li>
+                  </ul>
+                </li>
+                <li>Click <strong>Save</strong></li>
+                <li>Redeploy your application</li>
+              </ol>
+            </div>
+          </div>
+        )}
       </div>
 
       <div style={{ marginBottom: '20px' }}>
