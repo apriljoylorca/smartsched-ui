@@ -38,10 +38,21 @@ function LoginPage() {
       // On success, navigate to the page they were trying to reach
       navigate(from, { replace: true });
     } catch (err) {
-      const errorMsg =
-        err.response?.data?.message || 'Login failed. Please check your username and password.';
+      console.error('=== LOGIN ERROR ===');
+      console.error('Error object:', err);
+      console.error('Response:', err.response);
+      console.error('Request URL:', err.config?.url);
+      console.error('Request Base URL:', err.config?.baseURL);
+      
+      let errorMsg = 'Login failed. Please check your username and password.';
+      if (err.response?.data?.message) {
+        errorMsg = err.response.data.message;
+      } else if (err.code === 'ERR_NETWORK') {
+        errorMsg = 'Cannot connect to server. Please check if the API is running.';
+      } else if (err.message) {
+        errorMsg = `Error: ${err.message}`;
+      }
       setError(errorMsg);
-      console.error(err);
     }
   };
 

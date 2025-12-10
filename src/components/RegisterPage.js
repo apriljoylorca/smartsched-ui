@@ -43,10 +43,21 @@ function RegisterPage() {
         navigate('/login');
       }, 3000);
     } catch (err) {
-      const errorMsg =
-        err.response?.data?.message || 'Registration failed. Please try again.';
+      console.error('=== REGISTRATION ERROR ===');
+      console.error('Error object:', err);
+      console.error('Response:', err.response);
+      console.error('Request URL:', err.config?.url);
+      console.error('Request Base URL:', err.config?.baseURL);
+      
+      let errorMsg = 'Registration failed. Please try again.';
+      if (err.response?.data?.message) {
+        errorMsg = err.response.data.message;
+      } else if (err.code === 'ERR_NETWORK') {
+        errorMsg = 'Cannot connect to server. Please check if the API is running.';
+      } else if (err.message) {
+        errorMsg = `Error: ${err.message}`;
+      }
       setError(errorMsg);
-      console.error(err);
     }
   };
 

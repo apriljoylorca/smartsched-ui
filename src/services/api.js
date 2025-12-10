@@ -2,6 +2,11 @@ import axios from 'axios';
 
 export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080/api';
 
+// Log API configuration on load
+console.log('=== API CONFIGURATION ===');
+console.log('API_BASE_URL:', API_BASE_URL);
+console.log('REACT_APP_API_BASE_URL env:', process.env.REACT_APP_API_BASE_URL);
+
 // Create a new Axios instance
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -14,17 +19,33 @@ api.interceptors.request.use(
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
+    console.log(`[API Request] ${config.method?.toUpperCase()} ${config.baseURL}${config.url}`);
     return config;
   },
   (error) => {
+    console.error('[API Request Error]', error);
     return Promise.reject(error);
   }
 );
 
 // Add a response interceptor to handle 401/403 errors (e.g., token expired)
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log(`[API Response] ${response.config.method?.toUpperCase()} ${response.config.url} - Status: ${response.status}`);
+    return response;
+  },
   (error) => {
+    console.error('=== API ERROR ===');
+    console.error('URL:', error.config?.url);
+    console.error('Method:', error.config?.method);
+    console.error('Base URL:', error.config?.baseURL);
+    console.error('Status:', error.response?.status);
+    console.error('Status Text:', error.response?.statusText);
+    console.error('Response Data:', error.response?.data);
+    console.error('Error Message:', error.message);
+    if (error.code === 'ERR_NETWORK') {
+      console.error('Network Error - Could not reach API. Check if API is running and CORS is configured.');
+    }
     if (error.response && (error.response.status === 401 || error.response.status === 403)) {
       // Token is invalid or expired. Log the user out.
       console.error("Authentication Error. Logging out.");
